@@ -1,4 +1,7 @@
 # Sécurité des SI
+
+
+
 jeudi, 01. février 2018
 
 - Mettre en place SMSI système de gestion de la sécu norme iso 27001
@@ -34,7 +37,9 @@ OWASP : Open Web Application Security Project
 Consortium mondiale pour la sécurité applicative
 TOP 10 : les 10 vulns les + exploitées du moment
 
-##Cybercriminalité
+Méthode EBIOS d'analyse de risque
+
+## Cybercriminalité
 
 Terme qui désigne l'ensemble des infractions pénales susceptibles de ce commetre sur les réseaux de télécommunications ou ciblant ces réseaux.
 
@@ -47,3 +52,61 @@ Terme qui désigne l'ensemble des infractions pénales susceptibles de ce commet
     - les escroqueries (phishing, fausse lotteries, utilisation frauduleuse de moyens de paiement, ...)
 
 
+## L'[ANSSI](https://ssi.gouv.fr)  (Agence Nationale pour la sécurité des SI)
+
+Ils ont développés un [MOOC](https://www.ssi.gouv.fr/actualite/secnumacademie-le-nouvelle-formation-en-ligne-met-la-cybersecurite-a-la-portee-de-tous/). Leur rôle est de promouvoir la sécurité auprès du publiques et des entreprises.
+Protégé les systèmes de l'état, controler les OIV
+
+#### OIV (Opérateur d'importance Vitale)
+Certains hopitaux (pour les soins des VIPS du gouvernement), opérateurs de téléphones, ...
+
+#### PSSIE (Politique de sécurité de SI de l'état)
+Analyse de risques ...
+
+#### RGS (Référentiel général de la sécurité)
+Normes imposés par l'état
+
+# Introduction à la sécurité des SI
+
+- **Le système d'information** est un ensemble organisé de ressources (matériels, logiciel, personel, procédures, ...) qui permet de regrouper, classifier, traiter et diffuser de l'information sur un environnement donné.
+
+- **La sécurité du SI** c'est l'ensemble des moyens techniques, juridiques, organisationelles nécéssaires et mises en places pour conserver, rétablir et garantir la confidentialité, l'intégrité et la disponibilté du SI
+
+- **Les critères de sécurité** 
+
+    - La confidentialité : garantir l'accès à l'information uniquement aux entités **autorisés**
+    - l'intégrité : garantir l'**exactitude** et l'**exhaustivité** des données
+    - la disponibilité : garantir l'**accès** et l'**utilisation** à la demande de l'information pour une etité autorisé
+ 
+    Ces critères sont pondérés selon les besoins.
+    
+## Assurer la sécurité, comment ?
+
+- Il faut appliquer les pricipes de sécurisation à tous les niveaux. C'est à dire sur toutes les composantes du périmètre qu'on étudie. C'est le concept de **Défense en profondeur** .
+- Le risque nul et la sécu a 100% n'existent pas
+- il n'existe pas de solutions génériques, tout dépend du contexte
+
+Il faut avoir une liste claire des **actifs** (tout ce qui à de la valeru pour un entité et qui nécéssite par conséquent une protection)  :
+
+ - les actifs primordiaux, impalpables, inhérent à l'existence même de l'entité, les activités de l'entités
+ - les actifs en support, physiques, permette la réalisation des actifs primordiaux
+ 
+ **Vulnérabilites** : faille dans un **actif**, un **groupe d'actifs** ou une **mesure de sécurité**
+ Ajouter une mesure de sécurité augmente également la surface d'attaque (ex: un plugin pour la sécu dans un CMS)
+ 
+ **Menace**: Cause potentiel d'un évenement indésirable. (ex: un orage)
+ 
+**Scénario d'incident**: L'actif possède des vulnérabilités, la menance exploite une vulnérabilité et ainsi cible un actif.
+La probabilité que le scénario se produise est la **vraisemeblance**.
+Une fois le scénario produits il y a la **conséquence**, résultat d'un évenement indésirable.
+**L'impact** est un changement rédicale des objectifs métiers atteints.
+
+L'ensemble des ces éléments représentes le **risque**. On peut réduire le risque en agissant sur ces différents éléments.
+
+**Rique résiduel** risque qui subside après le traitement du risque.47741
+
+#### Lectures associées
+
+- Management de la sécurité du SI d'Alexandre Fernandez Torro (4ème édition en avril 2018) ISBN : 9782212138146
+- Gestion des risques en sécurité de l'information, ISO 27005, ISBN : 9782212134797
+- Sécurité opérationelle, ISBN: 9782212144604
