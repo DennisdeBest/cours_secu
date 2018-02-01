@@ -151,7 +151,7 @@ les 4 suivants : Exigences
 C'est une norme volontairement assez vague.
 
 ## Les grandes étapes du SMSI
-### Plan
+### PLAN
 
 #### analyse du risque ISO 27005
 **Définition de la politique et du périmètre** : étape cruciale, la suite vient s'appuyer sur ce qui a été défini ici. Le périmètre c'est le champ d'appréciation de l'étude et la politique c'est le niveau de sécurité exigé
@@ -214,30 +214,98 @@ On pondère actif, vuln, menaces, mesures de sécurité ainsi que la vraisemblan
 <tr><th>7</th></tr>
 </table></th>
 <td>
-<table><tr><td>2</td><td>3</td><td>4</td></tr></table>
-<table><tr><td>3</td><td>4</td><td>5</td></tr></table>
-<table><tr><td>4</td><td>5</td><td>6</td></tr></table>
-<table><tr><td>5</td><td>6</td><td>7</td></tr></table>
-<table><tr><td>6</td><td>7</td><td>8</td></tr></table>
-<table><tr><td>7</td><td>8</td><td>9</td></tr></table>
-<table><tr><td>8</td><td>9</td><td>10</td></tr></table>
+<table>
+<tr><td>2</td><td>3</td><td>4</td></tr>
+<tr><td>3</td><td>4</td><td>5</td></tr>
+<tr><td>4</td><td>5</td><td>6</td></tr>
+<tr><td>5</td><td>6</td><td>7</td></tr>
+<tr><td>6</td><td>7</td><td>8</td></tr>
+<tr><td>7</td><td>8</td><td>9</td></tr>
+<tr><td>8</td><td>9</td><td>10</td></tr>
+</table>
 </td>
 <td>
-<table><tr><td>3</td><td>4</td><td>5</td></tr></table>
-<table><tr><td>4</td><td>5</td><td>6</td></tr></table>
-<table><tr><td>5</td><td>6</td><td>7</td></tr></table>
-<table><tr><td>6</td><td>7</td><td>8</td></tr></table>
-<table><tr><td>7</td><td>8</td><td>9</td></tr></table>
-<table><tr><td>8</td><td>9</td><td>10</td></tr></table>
-<table><tr><td>9</td><td>10</td><td>11</td></tr></table>
+<table>
+<tr><td>3</td><td>4</td><td>5</td></tr>
+<tr><td>4</td><td>5</td><td>6</td></tr>
+<tr><td>5</td><td>6</td><td>7</td></tr>
+<tr><td>6</td><td>7</td><td>8</td></tr>
+<tr><td>7</td><td>8</td><td>9</td></tr>
+<tr><td>8</td><td>9</td><td>10</td></tr>
+<tr><td>9</td><td>10</td><td>11</td></tr>
+</table>
 </td>
 <td>
-<table><tr><td>4</td><td>5</td><td>6</td></tr></table>
-<table><tr><td>5</td><td>6</td><td>7</td></tr></table>
-<table><tr><td>6</td><td>7</td><td>8</td></tr></table>
-<table><tr><td>7</td><td>8</td><td>9</td></tr></table>
-<table><tr><td>8</td><td>9</td><td>10</td></tr></table>
-<table><tr><td>9</td><td>10</td><td>11</td></tr></table>
-<table><tr><td>10</td><td>11</td><td>12</td></tr></table>
+<table>
+<tr><td>4</td><td>5</td><td>6</td></tr>
+<tr><td>5</td><td>6</td><td>7</td></tr>
+<tr><td>6</td><td>7</td><td>8</td></tr>
+<tr><td>7</td><td>8</td><td>9</td></tr>
+<tr><td>8</td><td>9</td><td>10</td></tr>
+<tr><td>9</td><td>10</td><td>11</td></tr>
+<tr><td>10</td><td>11</td><td>12</td></tr>
+</table>
 </td>
 </table>
+
+#### Triatement du risque
+
+Choisir le mode de traitement a appliquer parmis les 4 suivants :
+
+- Réduction du risque: prendre des mesures pour faire chuter la valeur du scénario d'incident
+- Evitement: on décide ne pas faire l'activité à risque
+- Transfert: 
+    - externaliser l'activité a risque
+    - Prendre une assurance
+- l'acceptation: on décide de ne rien faire, on accepte ce risque
+
+Une fois la méthode de traitement choisi on construit le tableau "plan de traitement du risque" 
+On utilise ISO 27002 pour construire la déclaration d'applicabilité (dda, en anglais c'est Statement Of applicability).
+
+### DO
+
+- Mettre en oeuvre les mesures de sécurité
+- mettre en place des indicateurs (entre autres pour mesurer l'efficacité des mesurer)
+- former et sensibiliser le personnel
+- Gestion de la sécurité au quotidien
+- Gérer les incidents de sécurité ISO 27035
+
+### CHECK
+
+On va controler que le SMSI est efficace et qu'il est conforme aux spécifications, il y a pour cela 3 outils :
+- audits intenes
+- controles internes
+- revues
+
+**audits internes** : C'est un audit planifié, réalisé sur une clause précise de l'ISO.
+Les utilisateurs et opérateurs sont informé de l'audite.
+Il est réalisé par une personne interne à l'entité mais qui n'a pas participé à la mise en place des mesures.
+
+**Controle interne**: Il s'agit la de vérifier de façon inopiné que les mesures de sécu sont correctement appliquées. L'effet de surprise est importante
+
+**Revues**: 
+
+- Revues ponctuels: Parfois il peut être nécéssaire de faire une revue sans attendre la prochaine revue de direction (en cas de changement dans l'entreprise, en cas d'incident de sécurité)
+- Revues de direction: 
+    - revues périodiques, au moins une fois par an
+    - faire le point sur les résultats des audites internes
+    - permet d'avoir un retour des différents acteurs
+    - point sur les actions en cours
+    - point sur les menaces auquels on n'avait pas pensé lors de l'analyse de risque
+    - interpreter les indicateurs
+    - définir les nouvelles priorités
+    - changements survenue dans l'organisation à prendre en compte
+    
+### ACT
+
+Il va probablement falloir intervenir sur le SMSI pour corriger les écarts
+
+ - Actions préventives
+ - Actions correctives
+ - Actions d'amélioration
+ 
+ **Actions préventives**: On a détecté une situation à risque qui pourrait provoquer des écarts/incidents par rapport aux objectifs fixés. Il va falloir agir sur les causes.
+ 
+ **Actions correctives**: Un incident s'est produit, un écart a été constaté. On agi d'abord sur les conséquences et ensuite sur les causes pour éviter que le scénario se reproduise.
+ 
+ **Actions d'amélioration**: une mesure de sécu est en place, fonctionne, mais n'est pas suffisament performante
