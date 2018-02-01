@@ -37,7 +37,7 @@ OWASP : Open Web Application Security Project
 Consortium mondiale pour la sécurité applicative
 TOP 10 : les 10 vulns les + exploitées du moment
 
-Méthode EBIOS d'analyse de risque
+Méthode [EBIOS](https://www.ssi.gouv.fr/guide/ebios-2010-expression-des-besoins-et-identification-des-objectifs-de-securite/)  d'analyse de risque
 
 ## Cybercriminalité
 
@@ -107,6 +107,24 @@ L'ensemble des ces éléments représentes le **risque**. On peut réduire le ri
 
 #### Lectures associées
 
-- Management de la sécurité du SI d'Alexandre Fernandez Torro (4ème édition en avril 2018) ISBN : 9782212138146
-- Gestion des risques en sécurité de l'information, ISO 27005, ISBN : 9782212134797
-- Sécurité opérationelle, ISBN: 9782212144604
+- [Management de la sécurité du SI](https://www.abebooks.fr/9782212138146/2212138148/plp)  d'Alexandre Fernandez Torro (4ème édition en avril 2018) ISBN : 9782212138146
+- [Gestion des risques en sécurité de l'information](https://www.abebooks.fr/9782212134797/Gestion-risques-s%C3%A9curit%C3%A9-linformation-Mise-2212134797/plp) , ISO 27005, ISBN : 9782212134797
+- [Sécurité opérationelle](https://www.abebooks.fr/9782212144604/S%C3%A9curit%C3%A9-op%C3%A9rationnelle-Conseils-pratiques-s%C3%A9curiser-2212144601/plp) , ISBN: 9782212144604
+
+# Prséentation des systèmes de management
+SMSI, SMSSI, SGSI
+C'est un système où on centralise les informations, une organisation mis en place pour gérer les éléments sur lesquels on travaille.
+
+- Issue du vocabulaire de la qualité (ISO 9000)
+- Le système de management est une organisation que l'on met en place qui permet de définir une politique, des objectifs et d'atteindre les objectifs.
+- c'est un ensemble de mesures techniques et organisationnelles visant a atteindre des objectifs et une fois les objectifs atteinds, les maintenirs voir les dépasser.
+- quelques normes : 
+    - ISO 9001 => qualité
+    - ISO 14001 => l'environnement
+    - ISO 20000 => L'informatique (pas la sécurité)
+    - ISO 22000 => Alimentaire
+    - ISO 27001 => la sécu des SI
+    
+#### A propos d'[ISO](https://www.iso.org/home.html)
+International Standardization Organization, Les normes sont des spécifications de premier order pour les produits, services et bonne pratiques dans une optique e qualité, sécurité et efficacité.
+Facilite le commerce international.
