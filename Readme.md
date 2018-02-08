@@ -309,3 +309,192 @@ Il va probablement falloir intervenir sur le SMSI pour corriger les écarts
  **Actions correctives**: Un incident s'est produit, un écart a été constaté. On agi d'abord sur les conséquences et ensuite sur les causes pour éviter que le scénario se reproduise.
  
  **Actions d'amélioration**: une mesure de sécu est en place, fonctionne, mais n'est pas suffisament performante
+ 
+ ---
+ 
+ jeudi, 08. février 2018
+ 
+# Les concepts fondamentaux de la cryptographie appliquée 
+
+#### ressources
+
+- Applied cryptography, Bruce Schneier [@schneierblog](https://twitter.com/schneierblog) , ISBN 9781119096726, [https://schneier.com](https://schneier.com) 
+- Serious Cryptography, Jean-philippe Aumasson [@veorq](https://twitter.com/veorq) , ISBN 9781593278267, [https://131002.net](https://131002.net) 
+- Cryptographie quantique, Renaud Lifchitz [@nono2357](https://twitter.com/nono2357) , [https://www.nolimitsecu.fr/informatique-quantique](https://www.nolimitsecu.fr/informatique-quantique) 
+
+## Qu'es ce que la cryptographie
+C'est un sous ensemble de la cryptologie, 
+<table><tr><th>Cryptologie</th></tr><tr><th><table><th>Cryptographie</th><th>Cryptanalyse</th></tr></table></th></tr></table>
+
+## A quoi ça sert ?
+
+- Authentification
+- Intégrité
+- Confidentialité
+- Non-répudiation : Empecher quelqu'un de nier d'avoir fait quelquechose.
+
+### Vocabulaire
+
+#### Les acteurs de la cryptographie
+
+- L'utilisateur (Users)
+    - Expéditeur (Sender)
+    - Destinataire (Receiver)
+- le cryptographe (Cryptographers)
+- le cryptanalyste (Crypanalysts)
+
+#### La notion de message et de chiffrement
+
+- message clair (Plaintext)
+- Message chiffré (Ciphertext)
+- chiffrement (Encryption)
+- déchiffrement (Decryption) (!= décryptage !)
+
+#### Les algorithmes cryptographiques
+
+- Cryptographic alorithm
+- Cipher
+
+#### One-time Pad
+
+- Clefs cryptographiques à une seule utilisation
+- Clef de même longueur que le message
+- Technique de chiffrement parfaite si :
+    - La clef n'est effectivement utilisée qu'une seule fois ET
+    - Qu'elle est générée de façon parfaitement aléatoire.
+    
+# Les principaux systèmes cryptographiques
+
+## Les fonctions de hachage (One Way Hash Function)
+
+- Fonction de prise d'empreinte numériques
+- A partir d'une donée quelconque (pre-image) l'algorithme génère une donnée :
+    - De longueur fixe
+    - représentative de la donnée initiale
+    - on appelle cette donnée **h** empreinte (Hash)
+    
+Si deux données différentes ont des Hash identiques on parle de **collision**.
+Le hashage est à sens unique, il est impossible de retrouver la valeur de départ avec le hash.
+Renforcement par l'utilisationde sel (**salt**).
+
+### Pricipaux algorithmes
+- MD5 (Message Digest Algorithm) : 32chars 128bits
+- SHA (Secure Hash Algorithm) : 
+    - SHA1, il commence à y avoir des collisions 40chars 160bits
+    - SHA256, 64chars 256bits
+    
+### Extension des fonctions de hachage
+
+- MAC (Message Authentication Code)
+    - Génération d'une valeur souvent appelé **tag**
+    - le tag sert à authentifier le message.
+    - il garant son intégrité et son authenticité
+    - génération d'une clef secrète partagée.
+    - signature du message avec la clef.
+    - Vérification de la signature à l'aide du message, du tag et de la clef
+- HMAC (Keyed-Message Authentication Code)
+    - Génération d'une clef secrète dérivée ensuite pour générer deux secrets.
+    - Deux passes de fonction de hachage salées par ces deux secrets
+    - nom de l'algo : HMAC-{Fonction_de_hachage} ex: HMAC-SHA1
+    
+## La cryptographie symétrique
+
+Consiste à chiffrer et déchiffrer un message avec une clef secrète.
+La clef est la même ainsi que l'algo.
+Les partenaires partagent une clef secète.
+
+### Le différents types d'alorithmes
+
+#### Algorithme de chiffrement par flux (Stream Ciphers)
+ Message à chiffrer de longueur quelconque
+ Chiffrement bit par bit ou octet par octet (dans certains cas par mot de 32 bits)
+ Génération d'une valeur pseudo aléatoire appelée **Keystream** à partir d'une flec (**seed**)
+ **Keystream** est ensuite utilisé pour chiffrer les données (en général avec l'opération binaire XOR)
+ IV + key = seed
+ Ex d'utilisation: WEP, WPA
+ Algorithmes symétriques par flux : RC4, SEAL, utilisé dans PKZIP
+#### Algorithme de chiffrement par Block (Block Ciphers)
+ Message à chiffrer de longueur quelconque
+ Message découpé en blocs de taille fixe
+ Le dernier bloc peut être comblé pour atteindre la taille du bloc (**padding**)
+ Chaque bloc claire donnera toujours le même bloc chiffré
+ On peut traiter les blocs de différentes façon, modes d'opération:
+ 
+ -  ECB (Electronic Codebook): il ne faut plus l'utiliser, trop faible.
+ - CBC (Cipher Block Chainig): Le plus utilisé, utilise le block chiffré précedent comme vecteur d'initialisation du block suivant.
+ - CFB (Cipher Feedback): C'est l'IV qui est chiffré, il est XOR avec le plaintext et c'est utilisé comme IV du block suivant.
+ - OFB (Output Feedback): C'est l'IV chiffré qui est utilisé comme IV du block suivant
+ 
+### A propos du Vecteur d'initialisation (IV)
+
+Bloc de données aléatoire utilisé pour démarrer le chiffrement du premier bloc
+Ajoute une notion de hasard au chiffrement
+**Ne pas utliser le même IV avec deux clefs différents !**
+Pas nécéssaire de chiffrer l'IV par contre :
+
+- Sa génération doit être aléatoire
+- L'ensemble des IV doit être sufficamment grand
+
+#### Principaux algorithmes symétriques par blocs : 
+
+- DES, 3DES (Data Encryption Standard) **a bannir**
+- AES (Advanced Encryption Standard)
+- IDEA 
+- Blowfish
+- SAFER
+
+**Il est recommandé d'utiliser AES-256-CBC**
+
+### A quoi sert la cryptographie symétrique
+Authentification
+Confidentialité
+
+## La cryptographie asymétrique (à clef publique)
+
+### Principe de fonctionnement
+
+Chaque participant de l'échange dispose d'une paire de clefs, une publique et une privée.
+Une sert à chiffrer, l'autre à déchiffrer
+Le même algorithme est utilisé pour le chiffrement et le déchiffrement
+Repose sur des problèmes mathématiques complexes :
+
+- factorisation d'un nombre entier formé de grands facteurs premiers
+- résolution d'un logarithme discret sur un corps fini
+- résolution d'un logarithme discret sur une courbe elliptique
+
+Deux applications :
+
+- chiffrement
+_ex_: Alice chiffre son message avec la clé publique de Bob, Alice envoie le message chiffré à Bob, Bob déchiffre le message avec sa propre clé publique.
+- signature électronique
+_ex_: Alice chiffre son message avec sa propre clef privée, Alice envoie le message ainsi que la signature à Bob, Bob déchiffre la signature avec la clef publique d'alice.
+
+#### Principaux algorithmes asymétriques:
+
+- RSA (Rivest Shamir Adleman)
+- ElGamal
+- Système à courbes élliptiques
+- DSA (Digital Signature Algorithm) (uniquement pour la signature électronique)
+
+**Il est recommandé d'utiliser RSA avec des clefs de 2048 bits**
+
+#####Example de fonctionnement RSA
+
+Fondé en 1977 par Ron Rivest, Adi Shamir et Leonard Adleman, basé sur la complexité de factoriser des grands nombre (problématique calculatoire).
+
+Un exemple avec de petits nombres premiers (en pratique il faut de très grands nombres premiers) :
+
+    on choisit deux nombres premiers p = 3, q = 11 ;
+    leur produit n = 3 × 11 = 33 est le module de chiffrement ;
+    φ(n) = (3 – 1) × (11 – 1) = 2 × 10 = 20 ;
+    on choisit e= 3 (premier avec 20) comme exposant de chiffrement ;
+    l'exposant de déchiffrement est d = 7, l'inverse de 3 modulo 20 (en effet ed = 3 × 7 ≡ 1 mod 20).
+
+La clé publique d'Alice est (n, e) = (33, 3), et sa clé privée est (n, d) = (33, 7). Bob transmet un message à Alice.
+
+    Chiffrement de M = 4 par Bob avec la clé publique d'Alice : 43 ≡ 31 mod 33, le chiffré est C = 31 que Bob transmet à Alice ;
+    Déchiffrement de C = 31 par Alice avec sa clé privée : 317 ≡ 4 mod 33, Alice retrouve le message initial M = 4.
+
+Le mécanisme de signature par Alice, à l'aide de sa clé privée, est analogue, en échangeant les clés.
+
+### A quoi sert la cryptographie asymétrique
