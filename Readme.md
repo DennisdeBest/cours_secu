@@ -478,7 +478,7 @@ _ex_: Alice chiffre son message avec sa propre clef privée, Alice envoie le mes
 
 **Il est recommandé d'utiliser RSA avec des clefs de 2048 bits**
 
-#####Example de fonctionnement RSA
+##### Example de fonctionnement RSA
 
 Fondé en 1977 par Ron Rivest, Adi Shamir et Leonard Adleman, basé sur la complexité de factoriser des grands nombre (problématique calculatoire).
 
@@ -498,3 +498,31 @@ La clé publique d'Alice est (n, e) = (33, 3), et sa clé privée est (n, d) = (
 Le mécanisme de signature par Alice, à l'aide de sa clé privée, est analogue, en échangeant les clés.
 
 ### A quoi sert la cryptographie asymétrique
+
+---
+
+Vendredi, 09. février 2018
+
+## Définition d'un ICP (Infrastructure à clefs publiques) et des ses acteurs
+
+Comment garantir l'authenticité de la clef publique ?
+
+-> Faire intervenir un tiers de confiance :
+    
+    L'autorité de certification
+    
+### Qu'es ce qu'un infractructure à clés publiques ?
+
+- Infrastructure a clés publiques : **ICP**
+- Infrastructure de Gestion des clés : **IDC**
+- Public Key Infrastructure : **PKI**
+
+#### Lectures associées
+
+- T. Autret, L. Bellefin, M-l Oble-Laffaire, sécuriser ses échanges électroniques avec une PKI (ISBN 2212110456)
+
+#### Définition
+
+Une ICP c'est :
+"Un ensemble de composants physiques (des ordinateurs, des équipements cryptographiques logiciels ou matériel type HSM ou encore des cartes à puces), de procédures humaines (vérifications, validation) et de logiciels (système et application) destiné à gérer les clés publiques des utilisateurs d'un système."
+
