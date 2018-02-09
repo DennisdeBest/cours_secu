@@ -526,3 +526,85 @@ Comment garantir l'authenticité de la clef publique ?
 Une ICP c'est :
 "Un ensemble de composants physiques (des ordinateurs, des équipements cryptographiques logiciels ou matériel type HSM ou encore des cartes à puces), de procédures humaines (vérifications, validation) et de logiciels (système et application) destiné à gérer les clés publiques des utilisateurs d'un système."
 
+#### De quelle façon
+
+- Loren kohnfelder (1978) mentionne pour la première fois dans sa thèse : "un ensemble de données contenant un nom et une clé publique signé numériquement"
+- par l'introduction de la notion de certificat électronique
+
+## Le certificat électronique
+
+### Qu'es ce que c'est qu'un certificat électronique
+
+Document électronique qui conteint des données publiques
+Garantie l'autenticité de la clé publique qu'il contient
+Permet à Bob d'être sur que la clé publique qu'il utilise appartient bien à Alice.
+
+La clé publique contenu par le certificat permettra de chiffrer des données et/ou vérifier une signature électronique.
+Pour remplir sa fonction un certificat doit :
+
+- être propre à l'entité pour laquelle il a été créé
+- permettre à l'utilisateur de trouver l'identité de cette entité
+- contenir la clé publique
+- présenter de manière claire l'autorité qui garantie son contenu
+- être infalsifiable
+- présenter de manière claire sa période de validité
+- indiquer l'utilisation qui peut être faite de la clé de publique qu'il contient
+- porter un numéro d'identification
+
+#### A propos de cryptographie à clé publique ou **PKCS** (Public-Key Cryptography Standards)
+
+- Une quizaine de standards
+- Développés par les labos RSA
+- Permette de faciliter l'implémentation de la cryptographie à clé publiques
+- parmi lesquels PKCS#7 (façon de représenter les données dans les fichiers), PKCS#10 (représente les requêtes de demandes de génération de certificats), PKCS#12 (représentes les clés publiques/privés dans un seul fichier, surtout sous windows)
+
+#### Formats des fichiers de certificats
+
+- **.pem** (Privacy-enhanced Electronic Mail) : certificat DEF encodé en base 64, encadré par les mentions "----BEGIN CERTIFICATE----" et "-----END CERTIFICATE-----"
+- **.cer, .crt, .der** : Certificat **DER** au format binaire
+- **.p7b, p7c** (PKCS#7) contient plusieurs certificats ou CRL(s) (Certificate Revocation List)
+- **.p12** (PKCS#12) contient un bloc contenant la clé privée et certificat.
+
+#### Le format x509
+
+- Créé en 1988
+- Le plus utilisé aujourd'hui
+- propose un standard pour la structure des certificats
+
+(en PHP -> PHPKi utilise la lib openSSL pour générer des PKI)
+
+Un certificat x509 contient
+
+- Des champs standars
+- Des champs d'extensions (type, criticité et valeur)
+    - 4 types : Informations sur les clés, informations sur l'utilisation du certificat, attributs sur les utilisateurs e les AC, Co-contraines de certifications
+    - Criticité : Flag 0 ou 1, si 1 et que l'application n'est pas capable de répondre à cette exigence alors il ne pourra pas utiliser le certificat
+
+Certificate Fields :
+
+- Champs standards
+    - Version
+    - Numéro de série
+    - Certificate Signature Algorithme : L'algorithme de hachage utilisé pour faire l'empreinte des informations du certificat ainsi que l'algorithme de chiffrement.
+    - Issuer : Celui qui délivre le certificat
+    - Validity : Période de validité du certificat 'not before' & 'not after'
+    - Subject : La cible du certificat (porteur)
+    - Subject Public Key Info : Algorithme et contenu de la clé publiqe du porteur
+    - Signature de l'AC
+
+- Champs d'estensions :
+    - Certificate Key Usage: critical / Siging / Key Encipherment
+    - Extended Key Usage: not critical / ...
+    - ...
+
+### Les acteurs d'une ICP
+
+- L'utilisateur du certificat, il va récupérer le certificat du **sujet** pour utiliser la clé publique qu'il contient
+- Le **Subject** (détenteur du certificat), possède un biclé et veut que celle-ci soit "certifiée" par un tiers de confiance
+- L'infracstructure de confiance
+    - **L'autorité de certification**, génère le certificat et le signe, délivre les supports (physiques)
+    - L'autorité d'Enregistrement, récolte les infos sur le porteur de la biclé (futur subject) et vérifie que les infos soient correctes
+    - Le service de publication, un endroit ou publie les certificats
+    - Le dépôt de la LCR, une liste qui contient les numéros de séries des certificats qui ne sont plus valides
+    - L'Autorité d'horodatage, emet le timestamp
+    - L'Autorité de Validation
