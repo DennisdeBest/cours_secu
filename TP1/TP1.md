@@ -156,6 +156,10 @@ On veille donc à mettre une passphrase lors de la génération des clés et on 
     Sur le client :
     ls -la id_rsa_tp 
     -rw------- 1 dennisdebest dennisdebest 3243 févr.  9 10:50 id_rsa_tp
+    
+*Consultez la manpage du serveur et expliquez à quoi sert l'option StrictModes.*
+
+Avec StrictModes activé le serveur va vérifier les droits d'accès sur les clés à chaque connexion. Si c'est trop permisif la connection sera refusée.
 
 *Déposez maintenant la clef publique de votre client sur le serveur dans le fichier authorized_keys. Vous pourrez utiliser scp pour cela. Vous devrez peut être modifier les fichiers de configuration du client et du serveur pour faire fonctionner tout ceci correctement. Expliquez en détail toutes vos manipulations et exposez vos résultats.*
 
