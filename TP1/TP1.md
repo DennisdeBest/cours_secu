@@ -198,7 +198,7 @@ Il faut maintenant enregistrer les clés sur le disque dur afin de pouvoir s'en 
 Afin de pouvoir ouvrir une session SSH sans avoir a entrer son mod de passe il faut ouvrir une nouvelle session PuTTY
 Dans le menu sur la droite il faut aller dans Connection -> SSH -> auth -> private key file for authentication. Ici il faut naviguer vers le fichier clé privée enregistré précedemment.
 
-![putty3.png](.\img\putty3.png)
+![putty3.png](./img/putty3.png)
 
 Maintenant si on reviens dans 'Session' on tape l'utilisateur et l'adresse IP de la vm dans 'HostName' (ici vagrant@192.168.56.101). On peut enregistrer ces configurations pour ne pas avoir à les refaire la prochaine fois.
 Si on clique sur 'Open' la session SSH s'ouvre sans mot de passe.
