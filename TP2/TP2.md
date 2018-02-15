@@ -6,7 +6,7 @@
 
 *Les manipulations suivantes nécessitent la présence d'un contrôleur de domaine Active Directory. Dans un premier temps vous ferez donc de votre serveur ce contrôleur de domaine. Pour cela vous créerez une nouvelle forêt. Expliquez vos manipulations.*
 
-Nous commençons par installer    le rôle ADDS depuis le gestionnaire de serveur.
+Nous commençons par installer le rôle ADDS depuis le gestionnaire de serveur.
 
 - Installation du rôle ADDS
 
