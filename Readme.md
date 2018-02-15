@@ -608,3 +608,179 @@ Certificate Fields :
     - Le dépôt de la LCR, une liste qui contient les numéros de séries des certificats qui ne sont plus valides
     - L'Autorité d'horodatage, emet le timestamp
     - L'Autorité de Validation
+
+Jeudi, 15. février 2018
+
+## Cycle de vie d'un certificat
+
+### La phase d'initialisation
+
+- Enregistrement d'une demande
+- Authentification d'une demande
+- Génération du certificat (et éventuellement de la biclé)
+- Distribution/Publication du certificat (et la clé privée si génération de la biclé)
+
+### La phase d'utilisation
+
+- Vérification du statut du certificat
+- "Extraction" de la clé publique
+- Utilisation de la clé publique
+
+### La phase de révocation ou de suspension
+
+- Enregistrement d'une demande de révocation ou de suspension
+- Révocation du certificat
+- Suspension du certificat
+- Revalidation d'un certificat suspendu
+
+### La phase de renouvellement
+
+- Enregistrement d'une demande de renouvellement
+- Renouvellement du certificat
+- Publication et distribution du certificat
+
+## Le processus de création d'un certificat
+
+Le sujet contacte l'authorité d'enregistrement (**AE**) et peut éventuellement demander la génération d'une biclé (à éviter).
+L'AE retourne une liste d'info à fournir au sujet. Le niveau de justificatifs demandé dépend de l'utilisation qui va être faite du certificat. Elle vérifie que le porteur détends bien la clé privé (elle envoie un challenge chiffré avec la clé publique du sujet qu'il doit déchiffrer à l'aide de sa clé privée).
+
+L'AE transmet la demande de création à l'autorité de certification (**AC**), elle génère le certificat à partir des informations de l'AE.
+Une fois le certificat généré l'AC va signer le certificat avec sa clé privé, ensuite il se peut que le certificat soit publié dans le dépôt.
+
+l'AC transmet le certificat a l'AE qui le fourni au sujet. Le sujet peut désormais installer le certificat pour permettre son utilisation.
+
+### Les fonctions de l'AC lors de la création
+
+- Génération et signature du certificat
+- Publication du certificat (si nécessaire)
+
+### Les fonctions de l'AE lors de la création
+
+- Enregistrement de la demande
+    - Authentificattion du demandeur
+    - Vérification des attributs
+- Distribution du certificat (et éventuellement de la clé privée correspondante)
+
+## Le procssus de révocation
+
+Un certificat n'est pas détruit.
+
+### Pour quelles raisons révoquer un certificat ?
+
+- Suspicion ou compromission effective de la clé privée
+- Modification des informations contenues dans le certificat
+- Dysfonctionnement du support physique (ou perte des données d'activation)
+- Un changement de l'état de l'art de la cryptographie
+
+Un certificat expiré n'est pas révoquer, il est déja inutilisable.
+
+Le sujet demande la révocation a l'AE et il transmet le numéro de série du certificat et le motif de la révocation.
+L'AE enregistre la demande et vérifie que le demandeur est habillité à demander la révocation.
+l'AE transmet la demande à l'AC.
+l'AC répercute la révocation dans le service de publication.
+
+### L'AC répercute la révocation ?
+- Deux façons de procéder
+    - Révocation par publication d'un annuaire positif (on l'enlève de la liste blanche)
+    - Révocation par publication de listes négatives
+        - Liste de certificats révoqués (LCR)
+        - Certificat Revocation List (CRL)
+
+### A propos des LCR
+
+- Liste contenant les numéros de séries des certificats révoqués
+- Signées par l'AC
+- Format x509v2 le plus utilisé
+- Publié à intervalle régulier par l'AC
+
+#### Optimisation des LCR
+
+- Taille des LCR rapidement contraignant
+- Utilisation de CRL Distribution point
+- Publication de Deltas CRL
+
+#### Format d'une LCR x509v2
+
+- Version (CRL Format Version)
+- Algorithme utilisé pour signer la CRL
+- Nom de l'émetteur de la CRL
+- Date d'émission
+- Date d'émission de la prochaine
+- La clé publique
+- Liste des certificats révoqués (numéros de séries)
+- Signature de l'AC
+
+## Le processus de validation
+
+### Quand à lieu la validation ?
+
+- Au cours de la phase d'utilisation
+- Juste avant l'utilisation de la clé publique
+- Réalisée de manière automatique par l'application utilisatrice.
+- Un contrôle manuel peut être nécéssaire (cas particulier)
+
+### Pricipales étapes
+
+- Contrôle de l'intégrité du certificat (vérification de l'empreinte)
+- Côntrole de la validité (date, chemin de certification, état du certificat)
+- Côntrole de la politique d'usage du certificat
+
+### Comment controler l'état du certificat ?
+
+- Mise en oeuvre de la LCR
+- Mise en oeuvre d'une **Autorité de Validation**
+    - Utilisation du protocol **OCSP** (Online Certificate Status Protocol)
+
+## Les modèles de confiance
+
+Le domaine de confiance : Les certificats sont émis et utilisable dans un périmètre donnée.
+
+### Les différents modèles
+
+- ICP privée (ou fermée)
+- ICP en réseau
+- ICP ouverte
+
+ICP = Infrastructure à clé publique = PKI
+
+#### Les ICP privées
+
+- Mise en oeuvre pour les besoins internes d'une entité
+- Le domaine de confiance est limité à l'entité
+    - Seuls les utilisateurs internes à l'entité peuvent échanger en toute confiance
+    - Les certificats émis en interne ne sont pas reconnus de confiance en dehors de l'entité.
+
+#### Les ICP en réseau
+
+- Plusieurs ICP privées ont besoin de communiquer entre elles
+- Problèmatique : 
+    - Les certificats ne sont reconnus de confiance que dans les entités qui les ont créées.
+- Le domaine de confiance doit s'étendre aux différents entités.
+
+Entité A qui possède sa propre ICP dans laquelle elle à sa propre AC, pareil pour l'entité B. Qui doivent communiquer entre eux c'est par exemple le cas pour une fusion ou un rachat d'entreprises.
+
+1. Création d'une autre ICP qui délivre les certificats des AC A et B du coup les certificats ne sont plus autosigné mais signé par l'AC AB et du coup on reste dans le domaine de confiance.
+2. L'AC d'une des entités devient l'AC racine et refait les certificats de l'autre enttité.
+3. Certification croisés (cross certificate pair), champs particulier qui dis que le certificat a été géneré par des AC croisés, les deux AC sont reconnus de confiance.
+
+### Les ICP ouvertes
+
+- C'est le modèle utilisé sur internet aujourd'hui
+- Tout le monde peut communiquer avec tout le monde
+- Les certificats des utilisateurs sont délivrés par des opérateurs privés
+    - Niveau de confiance limité
+
+## Les différentes architectures
+
+### Architecture simples
+
+- les architectures plates,
+- La Liste de certificats de confiance
+
+### Architectures évoluées
+
+- Les architectures hiérarchiques, plusieurs AC, une racine et des filles.
+- Les architectures hybrides, les cas de la certification croisée.
+
+Dans le cas des certificats croisés si il y a trop d'AC on met en place une AC centrale qui dispatch les demandes de certification (Point focal)
+
