@@ -497,6 +497,8 @@ Nous allons donc prendre ce fichier encodé en base 64 et le copier dans l'inter
 
 ![32_base64_pkcs10_2.png](.\img\32_base64_pkcs10_2.png)
 
+Le certificat est en attente de validation par l'autorité de certification. Il faut retourner sur le serveur dans la console de l'autorité de certification et valider la demande en attente comme nous l'avons fait avant.
+
 #### Utilisation du service Certificate Authority Auto Enrollment :
 
 *Expliquez le rôle et le fonctionnement de l'auto enrollment de votre AC. Mettez en oeuvre cette nouvelle
@@ -515,11 +517,28 @@ Active Directory.*
 ## La révocation des certificats :
 
 *Révoquez un certificat précédemment généré. Vérifiez que la révocation a bien été prise en compte par votre AC. Pour cela vous consulterez la liste des certificats révoqués du composant logiciel enfichable Microsoft Active Directory Certificate Services,*
+
+Nous allons révoquer le certificat du serveur web.
+
+![33_CRL_revoke.png](.\img\33_CRL_revoke.png)
+
+Ensuite il faut republier la liste
+
+![35_publish_crl.png](.\img\35_publish_crl.png)
+
+Pour rendre cette liste accésible aux clients il faut le rôle "Répondeur en ligne"
+
+![34_crl_online.png](.\img\34_crl_online.png)
+
+
 #### La CRL :
+
 - *Qu'est ce qu'une CRL ?*
 
+Une CRL (**C**ertificate **R**evocation **L**ist) est une liste qui contient toutes les numéros de séries des certificats révoqués par l'autorité de certification
 
 - *Sur les ICP Microsoft, quels sont les deux modes de fonctionnement proposés pour les CRL ?*
+
 
 
 - *Configurez la CRL de votre ICP*
@@ -531,6 +550,10 @@ Active Directory.*
 ### Le service Online Responder et le protocole OCSP :
 
 *Expliquez ce qu'est le service Online Responder. Installez ce service sur votre ICP, configurez le et testez le.*
+
+
+![34_crl_online.png](.\img\34_crl_online.png)
+
 
 ## Sauvegarde et restauration des certificats et des clefs
 
