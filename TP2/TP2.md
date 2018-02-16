@@ -315,6 +315,17 @@ Ensuite il faut activer le SSL et choisir le certificat que nous venons de crée
 
 ![18_ssl_liaison.png](.\img\18_ssl_liaison.png)
 
+Ensuite nous soumetons la demande de certification. Puis nous pouvons terminer la demande.
+
+    certreq -submit ./manual_ssl_cert.req
+
+![23_terminer_la_demande.png](.\img\23_terminer_la_demande.png)
+
+![24_terminer2.png](.\img\24_terminer2.png)
+
+Et enfin on fait la liaison avec le certificat.
+
+![25_liaison.png](.\img\25_liaison.png)
 
 - *faite une demande de certificat utilisateur en générant une demande PKCS#10. Importez ensuite
 cette demande dans le composant logiciel enfichable Microsoft Active Directory
