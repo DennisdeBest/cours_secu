@@ -310,14 +310,11 @@ Nous allons convertir ce fichier .inf en .req avec la commande
      certreq -new .\manual_ssl_cert.inf .\manual_ssl_cert.req
 
 Nous pouvons maintenant soumettre cette demande et générer le certificat.
-Nous allons maintenant finaliser la demande de certificat dans le serveur IIS.
-Ensuite il faut activer le SSL et choisir le certificat que nous venons de créer en allant dans les options du site web puis dans liaisons.
-
-![18_ssl_liaison.png](.\img\18_ssl_liaison.png)
-
-Ensuite nous soumetons la demande de certification. Puis nous pouvons terminer la demande.
 
     certreq -submit ./manual_ssl_cert.req
+
+Nous allons maintenant finaliser la demande de certificat dans le serveur IIS.
+Ensuite il faut activer le SSL et choisir le certificat que nous venons de créer en allant dans les options du site web puis dans liaisons.
 
 ![23_terminer_la_demande.png](.\img\23_terminer_la_demande.png)
 
@@ -330,6 +327,23 @@ Et enfin on fait la liaison avec le certificat.
 - *faite une demande de certificat utilisateur en générant une demande PKCS#10. Importez ensuite
 cette demande dans le composant logiciel enfichable Microsoft Active Directory
 Certificate Services pour la valider.*
+
+Il faut d'abord désactiver l'acceptation auto des certificats.
+
+![26_accept_auto.png](.\img\26_accept_auto.png)
+
+Ensuite nous fesons la demande de certificat PKCS10.
+
+![22_pkcs10user.png](.\img\22_pkcs10user.png)
+
+![27_certificat_pending.png](.\img\27_certificat_pending.png)
+
+Si nous retournons sur l'aurité de certification nous voyons le certificat en attente.
+
+![28_certificate_pending2.png](.\img\28_certificate_pending2.png)
+
+
+
 
 #### Utilisation du service Certificate Authority Auto Enrollment :
 
