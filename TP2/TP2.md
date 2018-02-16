@@ -324,6 +324,13 @@ Et enfin on fait la liaison avec le certificat.
 
 ![25_liaison.png](.\img\25_liaison.png)
 
+Une fois le SSL en place nous pouvons retourné sur l'interface web pour finir la demande de certificat utilisateur.
+
+![30_submit_auto_user_cert_req.png](.\img\30_submit_auto_user_cert_req.png)
+
+Le certificat est généré automatiquement par l'AC et nous pouvons l'installer.
+
+
 - *faite une demande de certificat utilisateur en générant une demande PKCS#10. Importez ensuite
 cette demande dans le composant logiciel enfichable Microsoft Active Directory
 Certificate Services pour la valider.*
@@ -342,8 +349,153 @@ Si nous retournons sur l'aurité de certification nous voyons le certificat en a
 
 ![28_certificate_pending2.png](.\img\28_certificate_pending2.png)
 
+Il s'avère que nous avions mal compris la consigne, il faut générer le certificat pkcs10 sous forme de fichier et ensuite l'ajouter manuellement dans le serveur.
 
+Tout comme pour la génération du certificat SSL précédemment nous allons utiliser l'outil certreq dans powershell pour générer le fichier PKCS10 à partir du fichier .inf.
 
+    [Version]
+    Signature="$Windows NT$"
+
+    [NewRequest]
+    Subject = "CN=Administrateur&CN=Users&DC=SECU2018&DC=com"
+    Exportable = FALSE                  
+    KeyLength = 2048                    
+    KeySpec = 1                         
+    KeyUsage = 0xA0                     
+    MachineKeySet = True               
+    ProviderName = "Microsoft RSA SChannel Cryptographic Provider"
+    ProviderType = 12
+    SMIME = FALSE
+    RequestType = PKCS10
+
+    [Strings]
+    szOID_SUBJECT_ALT_NAME2 = "2.5.29.17"
+    szOID_ENHANCED_KEY_USAGE = "2.5.29.37"
+    szOID_PKIX_KP_SERVER_AUTH = "1.3.6.1.5.5.7.3.1"
+    szOID_PKIX_KP_CLIENT_AUTH = "1.3.6.1.5.5.7.3.2"
+
+    [RequestAttributes]
+    CertificateTemplate= User
+.
+
+    certreq -new .\user_cert.inf .\user_cert.req
+
+Ensuite nous utlisons à nouveau certutil pour vérifier le format du fichier .req
+
+    PS C:\Users\Administrateur\Documents> certutil .\user_cert.req
+    Demande de certificat PKCS10 :
+    Version : 1
+    Objet:
+        CN=Administrateur&CN=Users&DC=SECU2018&DC=com
+      Hachage du nom (sha1) : 92d910cceeeafc1c4f2765e1de0cebe425c98bc8
+      Hachage du nom (md5) : f955735e8bc877becb6268894498b049
+
+    Algorithme de clé publique :
+        ID d'objet Algorithme: 1.2.840.113549.1.1.1 RSA (RSA_SIGN)
+        Paramètres de l'algorithme :
+        05 00
+    Longueur de la clé publique : 2048 bits
+    Clé publique : bits inutilisés = 0
+        0000  30 82 01 0a 02 82 01 01  00 89 8c 92 71 31 05 e6
+        0010  10 36 b6 31 b8 15 a3 e9  1c 4c 88 da 77 22 bf c7
+        0020  a4 5e be 38 34 8f ab 99  26 2f 59 15 ff 75 e7 20
+        0030  a9 33 7a 78 28 ea 65 4d  ad d6 cc 6f 15 04 44 7b
+        0040  3c b2 ed 05 cc dd f2 82  3f 28 e1 1f 66 87 22 da
+        0050  55 57 0c f1 91 51 db 6c  24 c2 51 e9 be d2 c9 5b
+        0060  b1 a2 88 bb 3e b0 cb fb  da 62 65 bd 4f 95 cb 8d
+        0070  b6 0a ed 12 52 27 e1 7d  45 04 14 63 91 42 c3 79
+        0080  ef 09 09 9e 1a 28 2a de  6f cb a1 7e 51 9e 12 97
+        0090  76 28 d5 d4 55 ca 39 56  cb 3a 76 78 95 9a d2 8b
+        00a0  02 e0 90 84 a0 17 4c 1f  15 36 d8 7f 7d b3 33 8a
+        00b0  1f 42 fe 4f ea 41 ba 23  6c e0 14 c4 cc de c4 9a
+        00c0  56 ab 5b 02 04 fe 9d 1f  47 66 7f 0c 6f d0 cb 59
+        00d0  66 18 07 07 88 40 5b 2b  d7 f4 04 61 bf 3c 55 00
+        00e0  3e 01 e5 42 c0 22 1b f0  01 9d bd 53 ee 69 9a 44
+        00f0  39 47 0e c4 9b a2 99 4d  ff d3 52 9c 22 19 b8 75
+        0100  b1 d3 f7 94 00 03 b2 85  2f 02 03 01 00 01
+    Attributs de la demande : 5
+      5 attributs :
+
+      Attribut[0]: 1.3.6.1.4.1.311.13.2.3 (Version du système)
+        Valeur[0][0], Longueur = c
+            6.2.9200.2
+
+      Attribut[1]: 1.3.6.1.4.1.311.13.2.1 (Paire de valeurs de noms d'inscription)
+        Valeur[1][0], Longueur = 34
+            CertificateTemplate=User
+
+      Attribut[2]: 1.3.6.1.4.1.311.21.20 (Informations sur le client)
+        Valeur[2][0], Longueur = 49
+        Type d'attribut inconnu
+        ID du client : = 9
+        ClientIdCertReq -- 9
+        Utilisateur : SECU2018\Administrateur
+        Ordinateur : WIN-Q8J7UEAEIAB.SECU2018.com
+        Processus : certreq.exe
+
+      Attribut[3]: 1.3.6.1.4.1.311.13.2.2 (Fournisseur de services de chiffrement d'inscription)
+        Valeur[3][0], Longueur = 64
+        Type d'attribut inconnu
+        Information concernant le fournisseur de services de chiffrement
+        KeySpec = 1
+        Fournisseur = Microsoft RSA SChannel Cryptographic Provider
+        Signature : bits non utilisés = 0
+
+      Attribut[4]: 1.2.840.113549.1.9.14 (Extensions de certificat)
+        Valeur[4][0], Longueur = 75
+        Type d'attribut inconnu
+    Extensions de certificat : 4
+        1.3.6.1.4.1.311.20.2 : indicateurs = 0, longueur = a
+        Nom du Modèle de certificat (Type de certificat)
+            User
+
+        2.5.29.37 : indicateurs = 0, longueur = 22
+        Utilisation avancée de la clé
+            Système de fichiers EFS (Encrypting File System) (1.3.6.1.4.1.311.10.3.4)
+            Messagerie électronique sécurisée (1.3.6.1.5.5.7.3.4)
+            Authentification du client (1.3.6.1.5.5.7.3.2)
+
+        2.5.29.15 : indicateurs = 1(Critique), longueur = 4
+        Utilisation de la clé
+            Signature numérique, Chiffrement de la clé (a0)
+
+        2.5.29.14 : indicateurs = 0, longueur = 16
+        Identificateur de la clé du sujet
+            70 08 80 fc 13 f9 6a bb 7d 0c 3f 31 bb de d3 64 c3 79 28 c8
+
+    Algorithme de signature :
+        ID d'objet Algorithme: 1.2.840.113549.1.1.5 sha1RSA
+        Paramètres de l'algorithme :
+        05 00
+    Signature : bits non utilisés = 0
+        0000  e7 f5 18 dd cd be f9 95  fc f6 51 e8 b7 0f fc 88
+        0010  24 d5 3b ea bf c4 c2 30  be d1 50 fc f9 92 65 6c
+        0020  c7 f9 81 76 e7 ab da 52  b1 76 4c 99 cf 58 4c 1b
+        0030  7e ca 5b 63 ae f5 25 85  31 2d ad a9 eb 7f 88 7e
+        0040  97 47 f2 13 de 61 58 c5  36 c0 fa b0 ec 69 e4 15
+        0050  47 fc 2c 6d a6 f2 62 6a  c8 af 96 e6 56 f1 c0 94
+        0060  15 4b b5 2d cd 03 35 8b  1c d7 78 a4 46 e2 d8 f0
+        0070  af cf 3e f0 09 3d b2 79  45 cb 2c f5 3f cc 8d d5
+        0080  6c f0 4e c3 01 b9 0f bc  4a 88 2d 88 8f c4 20 c5
+        0090  6a 56 08 cb f8 56 c2 e6  e7 8e 4a ec 7b 2b ca 3c
+        00a0  b2 5f ce 16 f6 93 83 ca  17 75 26 eb 0d 9c 94 e9
+        00b0  d3 df f1 1b 08 59 49 2d  c3 2c 00 6b 1c 7c 03 31
+        00c0  0c 53 bc 89 dc 22 c8 4e  52 c0 a4 80 d3 70 9c bc
+        00d0  a1 69 a7 7d ed 4e f1 f0  a9 d8 80 a7 85 a6 d5 a1
+        00e0  f2 8f 09 87 04 c5 65 a5  0f 81 6e 8a e0 e9 db 40
+        00f0  4c 3f 70 92 fd 1f 19 af  00 78 87 f3 57 df 86 13
+    La signature correspond à la clé publique
+    Hachage de l'identificateur de clé (rfc-sha1) : 70 08 80 fc 13 f9 6a bb 7d 0c 3f 31 bb de d3 64 c3 79 28 c8
+    Hachage de l'identificateur de clé (sha1) : 66 c6 cb 2b 58 72 c1 43 7f bf 5b 09 61 84 8a 69 47 ff 7a ea
+    CertUtil: -dump La commande s'est terminée correctement.
+
+Il s'agit bien d'un fichier au format PKCS10.
+
+Nous allons donc prendre ce fichier encodé en base 64 et le copier dans l'interface web.
+
+![31_base64_pkcs10.png](.\img\31_base64_pkcs10.png)
+
+![32_base64_pkcs10_2.png](.\img\32_base64_pkcs10_2.png)
 
 #### Utilisation du service Certificate Authority Auto Enrollment :
 
@@ -383,6 +535,23 @@ Active Directory.*
 ## Sauvegarde et restauration des certificats et des clefs
 
 *Quels sont les outils mis à disposition par l'ICP Microsoft pour gérer la sauvegarde et la restauration des certificats et des clefs ? Mettez en oeuvre cette solution.*
+
+La sauvegarde peut se faire depuis la fenêtre d'administration de l'autorité de certification :
+
+![29_sauvegarde.png](.\img\29_sauvegarde.png)
+
+Nous pouvons également utiliser certutil en ligne de commande :
+
+     -backup           -- Sauvegarder les Services de certificats Active Directory
+     -backupDB         -- Sauvegarder la base de données des Services
+                          de certificats Active Directory
+     -backupKey        -- Sauvegarder le certificat et la clé privée
+                          des Services de certificats Active Directory
+     -restore          -- Restaurer les Services de certificats Active Directory
+     -restoreDB        -- Restaurer la base de données des Services de certificats
+                          Active Directory
+     -restoreKey       -- Restaurer le certificat et la clé privée des Services
+                          de certificats Active Directory
 
 ## Cryptographie et messagerie électronique :
 
