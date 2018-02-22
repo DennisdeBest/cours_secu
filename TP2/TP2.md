@@ -526,10 +526,6 @@ Ensuite il faut republier la liste
 
 ![35_publish_crl.png](.\img\35_publish_crl.png)
 
-Pour rendre cette liste accésible aux clients il faut le rôle "Répondeur en ligne"
-
-![34_crl_online.png](.\img\34_crl_online.png)
-
 
 #### La CRL :
 
@@ -539,21 +535,53 @@ Une CRL (**C**ertificate **R**evocation **L**ist) est une liste qui contient tou
 
 - *Sur les ICP Microsoft, quels sont les deux modes de fonctionnement proposés pour les CRL ?*
 
-
+Ils publient les liste complètes ou par delta (les deltas ne contiennent que les modifications depuis la dernière publication).
 
 - *Configurez la CRL de votre ICP*
 
 
+
 - *Déployez votre CRL sur les postes clients.*
 
+Sur le poste client nous pouvons nous connecter au partage réseau du controlleur de domaine :
+
+    \\WIN-Q8J7UEAEIAB\CertEnroll
+
+C'est ici que les CRLS sont publiées, nous pouvons donc les installer manuellement.
 
 ### Le service Online Responder et le protocole OCSP :
 
 *Expliquez ce qu'est le service Online Responder. Installez ce service sur votre ICP, configurez le et testez le.*
 
+Pour rendre cette liste accésible aux clients il faut le rôle "Répondeur en ligne"
 
 ![34_crl_online.png](.\img\34_crl_online.png)
 
+Ensuite il faut configurer un nouveau point de distribution, pour cela il faut :
+
+- Aller dans la console de l'AC
+- Faire un clique droit sur le nom de l'AC et aller dans propriétés
+- Dans extension ajouter une extension
+
+![37_configureDP.png](.\img\37_configureDP.png)
+
+Nous avons ajouté un point de ditribution http pour l'accès à la CRL.
+
+Si nous générons un nouveau certificat il aura désormais un nouveau point d'accès CRL en https :
+
+    URL=http://WIN-Q8J7UEAEIAB.SECU2018.com/CertEnroll/SECU2018-WIN-Q8J7UEAEIAB-CA.crl
+
+Il va falloir que le client puisse accéder à cette URL. Il faut donc rajouter ce nom dans les champs d'extension du certificat :
+
+    URL=http://WIN-Q8J7UEAEIAB.SECU2018.com/CertEnroll/SECU2018-WIN-Q8J7UEAEIAB-CA.crl
+
+Nous allons donc regénérer le certificat SSL, le mettre en place sur le site, vérifier qu'il fonctionne, le révoquer et vérifier que nous obtenons bien une alerte au moment de la révocation.
+
+De plus nous n'allons pas exiger le SSL sur l'url de la liste de révocation
+
+![36_demandSSL.png](.\img\36_demandSSL.png)
+
+Et voila le navigateur du client à accès à la CRL. Si nous révoquons le certificat SSL ça sera correctement répercuté sur la poste client.
 
 ## Sauvegarde et restauration des certificats et des clefs
 
