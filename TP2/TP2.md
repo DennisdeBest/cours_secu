@@ -505,6 +505,60 @@ Le certificat est en attente de validation par l'autorité de certification. Il 
 fonctionnalité. Vous testerez son bon fonctionnement en ajoutant un utilisateur ou un ordinateur à votre
 Active Directory.*
 
+Pour mettre en place l'auto enrollment il faut créer un nouveau modèle de certificat comme ci-desous :
+
+![1_templates.png](.\img\autoEnroll\1_templates.png)
+
+On veut créer l'auto enrollment sur les ordinateurs du domaine donc on commence par dupliquer le modèle de certificat "Ordinateur" 
+
+![2_templates.png](.\img\autoEnroll\2_templates.png)
+
+Puis on change les paramètres de compatibilité, sinon on ne peut bénéficié de l'auto enrollment.
+
+![3_templates.png](.\img\autoEnroll\3_templates.png)
+
+Ensuite on change le nom que l'on veut donner au modèle de certificat, la période de validité, la période de renouvellement et on active la publication dans l'AD pour éviter que les ordinateurs ne demande le certificat à chaque connection.
+
+![4_templates.png](.\img\autoEnroll\4_templates.png)
+
+Et on active les autorisations "Lecture", "Inscrire" et "Inscription automatique" pour les "Utilisateurs authentifiées" et "Ordinateurs du domaine".
+
+![5_templates.png](.\img\autoEnroll\5_templates.png)
+
+![6_templates.png](.\img\autoEnroll\6_templates.png)
+
+![7_templates.png](.\img\autoEnroll\7_templates.png)
+
+Il faut faire de même avec un certificat utilisateur pour avoir l'auto enrollment utilisateur.
+
+En plus des nouveaux modèles de certificats il faut créer une GPO comme ci-dessous : 
+
+![8_gpo.png](.\img\autoEnroll\8_gpo.png)
+
+![9_gpo.png](.\img\autoEnroll\9_gpo.png)
+
+![10_gpo.png](.\img\autoEnroll\10_gpo.png)
+
+![11_gpo.png](.\img\autoEnroll\11_gpo.png)
+
+![12_gpo.png](.\img\autoEnroll\12_gpo.png)
+
+![13_gpo.png](.\img\autoEnroll\13_gpo.png)
+
+Pour tester l'auto enrollment utilisateurs on crée un utilisateur dans l'AD.
+
+![14_usertestEA.png](.\img\autoEnroll\14_usertestEA.png)
+
+Et on va sur le client pour vérifier la présence des certifcats : 
+
+![16_test.png](.\img\autoEnroll\16_test.png)
+
+![15_test.png](.\img\autoEnroll\15_test.png)
+
+![18_test.png](.\img\autoEnroll\18_test.png)
+
+On peut voire le certificat utilisateur et le certificat ordinateur.
+
 #### Industrialisation de la génération des certificats : les templates
 
 *L'ICP Microsoft vous permet de créer des templates de certificats.*
@@ -513,6 +567,9 @@ Active Directory.*
 
 
 - *Familiarisez vous avec la création des templates, puis créez votre propre template. A l'aide de la méthode de votre choix, générez un nouveau certificat à partir du template que vous venez de créer.*
+
+On peut créer de nouveau modèle de certificat pour activer des fonctionnalités comme l'auto enrollment dans la question précédente.
+
 
 ## La révocation des certificats :
 
