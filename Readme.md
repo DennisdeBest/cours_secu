@@ -1,6 +1,9 @@
 # Sécurité des SI
 
 
+[TOC]
+
+
 
 jeudi, 01. février 2018
 
@@ -784,3 +787,184 @@ Entité A qui possède sa propre ICP dans laquelle elle à sa propre AC, pareil 
 
 Dans le cas des certificats croisés si il y a trop d'AC on met en place une AC centrale qui dispatch les demandes de certification (Point focal)
 
+vendredi, 23. février 2018
+
+# La sécurité des systèmes nomades
+
+## Qu'es ce qu'un système nomade ?
+
+C'est une ressource su SI qui va être utilisée en dehors du périmètre de sécurité du SI
+
+- Ordinateur portables
+- smartphone tablettes
+- poste de travail fixedans le cadre du télétravail
+- périphériques de stockage(clé USB, disque dur, ...)
+
+Il y a des risques spécifiques aux équipements nomades. Ces risques sont bien identifiés, et des mesures spécifiques ont été prévues dans ISO27002 :
+
+- chapitre 9.2.5 Sécurité du matériel hors des locaux.
+- chapitre 11.7 Informatique mobile et télétravail.
+
+Il convient de mettre en oeuvre différents types de mesures :
+
+- Protection physique
+- Cryptographiques
+- Des contrôles d'accès
+- Définir une politique particulière
+
+### A propos des risques :
+
+#### Risque pour le système nomade
+
+- Vol du matériel, peut porter atteinte à la disponibilité et à la confidentialité des données
+- Déterioration du matériel
+- Infection du matériel, peut porter atteinte à la sécurité du SI
+
+####Risques pour le SI
+
+- Infection
+- Intrusion par usurpation d'identité
+
+## Renforcer les aspects physiques
+
+- Renforcer la sensibilisation des utilisateurs (cf guide de l'ANSSI passeport de conseil aux voyageurs)
+    - Avant le départ
+    - Pendant la mission
+    - Avant le retour de mission
+    - Après la mission
+
+### Avant de partir en mission
+
+- Rappeler aux utilisateurs de relire les consignes et les règles de  sécurité établi par l'entreprise
+- Se renseigner sur la législation locale
+- Utiliser que du matériel dédié uniquement à la mission
+- Sauvegarder les données avant le départ
+- Eviter de partir avec des données sensibles
+- Utiliser un filtre sur l'écran
+- Marquer l'équipement avec un signe distinctif
+
+### Pendant la mission
+
+- Garder les équipements sur sa personne, à défaut au moins les données.
+- Protéger l'accès aux données et équipements par des mots de passe forts.
+- Eviter de se séparer des équipements
+- Utilisez un logiciel de chiffrement des données
+- Pensez à effacer vos historiques de navigation et d'appels
+- En cas d'interpellation ou de saisie de matériel par des autorités locales, prévenir l'entreprise.
+- En cas de perte ou de vol contacter l'entreprise.
+- Ne pas utiliser ou connecter les équipements que l'on vous offre (clé usb)
+- Eviter de se connecter à des système informatiques quine sont pas de confiance.
+- Ne pas se connecter aux bornes de rechargement USB
+
+### Avant le retour de la mission
+
+- Transferer toutes les données à l'entreprise de façon sécurisée
+- Effacer les historiques d'appels et de navigation.
+
+### Après la mission
+
+- Changer les mots de passes utilisés pendant la mission
+- Analyser les équipements (recherche d'infection)
+
+#### Mesures techniques complémentaires
+
+- Vérrouiller le BIOS pour éviter de modifier la configuration.
+- Interdire le démarrage depuis d'autres supports que le DD principal.
+- Vérrouiller l'accès à la séquence de démarrage.
+
+## Mesure cryptographique
+
+En cas de perte ou de vol de l'équipement, les données qu'il contient peuvent être exposées.
+Il convient de chiffrer les supports de stockage.
+Plusieurs méthodes sont possibles:
+
+- Chiffrement de disque
+- Chiffrement de partition
+- Chiffrement de fichiers
+- Lorsque le support de stockage est chiffré il va être nécéssaire de renseigner le secret de déchiffrement pour accéder aux données. (secret = clé secrète de chiffrement symétrique)
+
+La clé secrète peut être renseignée de différente façon :
+
+- sous la forme d'un mdp à saisir au lancement de la machine
+- le clé peut être :
+    - La clé de déchiffrement de données
+    - la passphrase qui va déverrouiller la clé de chiffrement symétrique
+
+Quid du stockage de la clé de déchiffrement ?
+Elle peut être soit sur un composant matériel interne au poste : TPM Trusted Platform Manager
+Soit sur un composant externe : clé USB, smartcard ...
+
+Il convient de chiffrer le volume ou la partition sur lesquels sont stockées les données et ensuite chiffré les données les plus sensibles.
+Les technologies disponibles pour le chiffrement de disques ou de partition :
+
+- Bitlocker (windows)
+- Luks
+- VeraCrypt
+
+cf [podcast nolimit secu veracrypt](https://www.nolimitsecu.fr/veracrypt/)
+
+Pour le chiffrement de fichiers
+
+- zed
+- PGP/Gnupg
+- OpenSSL
+
+RGS : Qualification de produits
+Différents niveau de qualifcation
+
+- evaluation CSPN (Certification de sécurité de prmier niveau)
+- critères commun EAL3+ et EAL4+ réalisé par des organismes accrédités CESTI (Centre d'évaluation de la sécurité des Technologies de l'information)
+
+Pensez à la procédure de récupération en cas de perte de la clé. -> recopier la clé en lieu sur.
+
+Les systèmes nomades évoluent dans un environnement sécurisé et ils doivent accéder à un environnement sécurisé.
+
+## Mesures d'accès distants sécurisé au SI
+
+- Mise en place de VPN
+- Différents technologies
+    - SSL/TLS
+    - IPsec
+    - ....
+- Différents niveaux d'authentification
+    - mots de passes
+    - clés de chiffrement
+
+## Mise en oeuvre d'une politique spécifique
+
+- mise en oeuvre de paramètre renforcées dédiés à cet usage
+- Homogéniser les paramètres (limiter la surface) : profils de configuration
+- stratégie de restriction logicielle (applocker)
+- Politique antivirus
+- EMET (Enhanced Mitigation Experience Toolkit)
+
+## Mise en place des mesures de support spécifiques
+
+- Isolés du SI
+- que faire en cas de défaillaince ou perte de l'équipement ?
+- souscription de garanties spécifiques au niveau des assurances.
+
+Les mesures prises doivent relever d'une analys du risque qui prends en compte les lieux depuis lesquels les équipements vaont être utilisés.
+
+## Le cas particulier du télétravail
+
+Dans iso 27002 paragraphe 11.7.2
+Dans le cas du télétravail il convient de protéger le site de travail et de veiller à la mise en place des installations appropriées.
+
+### Les risques du télétravail
+
+- Le vol de matériel et d'informations
+- Des enfants qui font de la merde
+- Accès distant non autorisé du SI de l'entreprise
+- Mauvais usage des équipements
+
+Compte tenus de ces risque il va falloir prendre des mesures spécifiques
+
+- Renforcer le niveau de protection physique du site
+- nuissance de l'environnement
+- utilisation d'un réseauu domestique non sur pour véhiculer des information sensibles
+
+Problématique de nature juridique
+
+- quid de la propriété des développements éffectués avec des équipements personnels
+- Risque de complication en cas d'enquêtes
